@@ -10,7 +10,7 @@ GameWindowSettings settings = new GameWindowSettings()
 NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
 {
     ClientSize = new Vector2i(800, 600),
-    Title = "Cool Window"
+    Title = "ComputerGrafik1: Jasper, Kristian og Mads"
 };
 Game game = new Game(settings, nativeWindowSettings);
 game.Run();
