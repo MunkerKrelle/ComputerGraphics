@@ -26,45 +26,45 @@ namespace OpenTkWindow11
 
             if (input.IsKeyDown(Keys.Left))
             {
-                gameObject.transform.Position.X -= gameObject.transform.Right.X * movementSpeed * (float)args.Time;
+                gameObject.transform.Position.X += gameObject.transform.Right.X * movementSpeed * (float)args.Time;
 
             }
             if (input.IsKeyDown(Keys.Right))
             {
-                gameObject.transform.Position.X += gameObject.transform.Right.X * movementSpeed * (float)args.Time;
+                gameObject.transform.Position.X -= gameObject.transform.Right.X * movementSpeed * (float)args.Time;
 
-            }
-            if (input.IsKeyDown(Keys.W))
-            {
-                gameObject.transform.Position -= gameObject.transform.Front * movementSpeed * (float)args.Time;               
             }
             if (input.IsKeyDown(Keys.S))
             {
                 gameObject.transform.Position += gameObject.transform.Front * movementSpeed * (float)args.Time;
             }
-             if (input.IsKeyDown(Keys.A))
+            if (input.IsKeyDown(Keys.W))
             {
-                gameObject.transform.Position -= gameObject.transform.Right * movementSpeed * (float)args.Time;               
+                gameObject.transform.Position -= gameObject.transform.Front * movementSpeed * (float)args.Time;
             }
             if (input.IsKeyDown(Keys.D))
             {
                 gameObject.transform.Position += gameObject.transform.Right * movementSpeed * (float)args.Time;
             }
-            if (input.IsKeyDown(Keys.Home))
+            if (input.IsKeyDown(Keys.A))
             {
-                gameObject.transform.Rotation.X += movementSpeed * (float)args.Time;
+                gameObject.transform.Position -= gameObject.transform.Right * movementSpeed * (float)args.Time;
             }
-            if (input.IsKeyDown(Keys.End))
+            if (input.IsKeyDown(Keys.Home))
             {
                 gameObject.transform.Rotation.X -= movementSpeed * (float)args.Time;
             }
+            if (input.IsKeyDown(Keys.End))
+            {
+                gameObject.transform.Rotation.X += movementSpeed * (float)args.Time;
+            }
             if (input.IsKeyDown(Keys.Delete))
             {
-                gameObject.transform.Rotation.Y += movementSpeed * (float)args.Time;
+                gameObject.transform.Rotation.Y -= movementSpeed * (float)args.Time;
             }
             if (input.IsKeyDown(Keys.PageDown))
             {
-                gameObject.transform.Rotation.Y -= movementSpeed * (float)args.Time;
+                gameObject.transform.Rotation.Y += movementSpeed * (float)args.Time;
             }
             MouseState mouse = window.MouseState;
             if (mouse.IsButtonDown(MouseButton.Right))
@@ -80,7 +80,7 @@ namespace OpenTkWindow11
                 float deltaY = mouse.Y - lastPos.Y;
                 lastPos = new Vector2(mouse.X, mouse.Y);
 
-                gameObject.transform.Rotation.Y += deltaX * Sensitivity * (float)args.Time;
+                gameObject.transform.Rotation.Y -= deltaX * Sensitivity * (float)args.Time;
                 if (gameObject.transform.Rotation.X > 89.0f)
                 {
                     gameObject.transform.Rotation.X = 89.0f;
@@ -91,7 +91,7 @@ namespace OpenTkWindow11
                 }
                 else
                 {
-                    gameObject.transform.Rotation.X += deltaY * Sensitivity * (float)args.Time;
+                    gameObject.transform.Rotation.X -= deltaY * Sensitivity * (float)args.Time;
                 }
                 //}
             }
