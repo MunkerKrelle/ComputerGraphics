@@ -1,0 +1,15 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v4.1.1)
+
+newmtl Wood
+Kd 1 1 1
+Ke 0 0 0
+illum 1
+map_Kd C:\Users\mads6\Downloads\New folder (20)\2K\Poliigon_WoodVeneerOak_7760_BaseColor.jpg
+
+newmtl Basket
+Kd 1 1 1
+Ke 0 0 0
+illum 1
+map_Kd C:\Users\mads6\Downloads\New folder (20)\2K\Poliigon_RattanWeave_6945_BaseColor.jpg
+

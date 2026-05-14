@@ -28,22 +28,27 @@ namespace OpenTkWindow11
             base.OnLoad();
             texture0 = new Texture("Textures/wall.jpg");
             texture1 = new Texture("Textures/AragonTexUdenBaggrund.png");
-            Dictionary<string, object> uniforms = new Dictionary<string, object> ();
+            Dictionary<string, object> uniforms = new Dictionary<string, object>();
             uniforms.Add("texture0", texture0);
             uniforms.Add("texture1", texture1);
             Material mat = new Material("Shaders/shader.vert", "Shaders/shader.frag", uniforms);
             Renderer rend = new Renderer(mat, new TriangleMesh());
             Renderer rend2 = new Renderer(mat, new CubeMesh());
-            GameObject triangle = new GameObject(rend,this);
+            GameObject triangle = new GameObject(rend, this);
             gameObjects.Add(triangle);
             GameObject cube = new GameObject(rend2, this);
-           
             gameObjects.Add(cube);
+
+            Renderer loadedRenderer = ModelLoader.Load("Models/3d-model.obj");
+            GameObject loadedModel = new GameObject(loadedRenderer, this);
+            loadedModel.transform.Position = new Vector3(1.0f, -1.0f, 1.0f);
+            gameObjects.Add(loadedModel);
+
             GameObject cam = new GameObject(null, this);
             cam.AddComponent<CameraMoveBehaviour>();
             cam.AddComponent<Camera>(60.0f, (float)Size.X, (float)Size.Y, 0.3f, 1000.0f);
             gameObjects.Add(cam);
-            camera =  cam.GetComponent<Camera>();            
+            camera = cam.GetComponent<Camera>();
             GL.Enable(EnableCap.DepthTest);
             watch.Start();
         }

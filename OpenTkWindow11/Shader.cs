@@ -1,18 +1,41 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using OpenTK.Compute.OpenCL;
 
 
     public class Shader
     {
         public int Handle;
+
+        // Cache of compiled shader programs, keyed by (vertPath, fragPath).
+        // Multiple Materials referencing the same shader pair share one
+        // program — shader compilation is slow, so this is a real saving
+        // when loading a multi-material model where every submesh wants
+        // the same albedo shader. Mirrors the texture cache in ModelLoader.
+        private static readonly Dictionary<(string, string), Shader> cache = new();
+
+        /// <summary>
+        /// Returns a Shader for the given vertex/fragment file pair,
+        /// compiling and caching it on first use, or returning the cached
+        /// one on subsequent calls. Prefer this over the constructor when
+        /// the same shader pair may be requested multiple times.
+        /// </summary>
+        public static Shader GetOrLoad(string vertexPath, string fragmentPath)
+        {
+            var key = (vertexPath, fragmentPath);
+            if (cache.TryGetValue(key, out Shader? cached))
+                return cached;
+
+            var fresh = new Shader(vertexPath, fragmentPath);
+            cache[key] = fresh;
+            return fresh;
+        }
+
         public Shader(string vertexPath, string fragmentPath)
         {
-            
+
             string vertexSource = File.ReadAllText(vertexPath);
             string fragmentSource = File.ReadAllText(fragmentPath);
             int vertexShader = GL.CreateShader(ShaderType.VertexShader);
@@ -73,13 +96,18 @@ using OpenTK.Compute.OpenCL;
     public void SetInt(string name, int value)
     {
         int location = GL.GetUniformLocation(Handle, name);
-
         GL.Uniform1(location, value);
     }
     public void SetFloat(string name, float value)
     {
         int location = GL.GetUniformLocation(Handle, name);
         GL.Uniform1(location, (float)value);
+    }
+    
+    public void SetVector3(string name, Vector3 value)
+    {
+        int location = GL.GetUniformLocation(Handle, name);
+        GL.Uniform3(location, value);
     }
 
     public void SetMatrix(string name, Matrix4 transform)
@@ -88,4 +116,3 @@ using OpenTK.Compute.OpenCL;
         GL.UniformMatrix4(location,true,ref transform);
     }
 }
-
