@@ -1,42 +1,37 @@
-﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 
-namespace OpenTkWindow11
+namespace OpenTkWindow11.Meshes
 {
-    internal class QuadMesh : Mesh
+    public class Mesh
     {
-        static bool buffersCreated;
-        static int vertexArrayObject;
-        static int elementBufferObject;
-        static int vertexBufferObject;
-        protected override float[] Vertices => new float[]
-         {
+        protected virtual float[] Vertices { get; }
+        protected virtual uint[] Indices { get; }
+         int vertexArrayObject;
+         int elementBufferObject;
+         int vertexBufferObject;
+        float[] vertices =
+        {
             //Position          Texture coordinates
              0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
              0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
         };
-        protected override uint[] Indices => new uint[]
+        uint[] indices =
         {
             0, 1, 3,   // first triangle
             1, 2, 3    // second triangle
         };
-        protected override void GenerateBuffers()
+        public Mesh()
         {
-            if (buffersCreated)
-            {
-                return;
-            }
+            GenerateBuffers();
+        }
+        protected virtual void GenerateBuffers()
+        {
             vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, (int)vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, Vertices.Length * sizeof(float),
-                Vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float),
+                vertices, BufferUsageHint.StaticDraw);
             vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(vertexArrayObject);
 
@@ -47,13 +42,15 @@ namespace OpenTkWindow11
 
             elementBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, (int)elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
-            buffersCreated = true;
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+
+            Console.WriteLine("heo2");
         }
-        public override void Draw()
+
+        public virtual void Draw()
         {
             GL.BindVertexArray(vertexArrayObject);
-            GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

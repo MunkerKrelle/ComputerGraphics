@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
-namespace OpenTkWindow11
+namespace OpenTkWindow11.Meshes
 {
     internal class TriangleMesh : Mesh
     {
