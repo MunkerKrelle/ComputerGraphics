@@ -75,7 +75,7 @@ namespace OpenTkWindow11
             string fontPath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
                 "arial.ttf");
-            textRenderer = new TextRenderer(fontPath, 32, Size.X, Size.Y);
+            //textRenderer = new TextRenderer(fontPath, 32, Size.X, Size.Y);
             watch.Start();
         }
 
